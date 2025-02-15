@@ -1,1 +1,70 @@
+/* Create global variables in the root scope for reusibilty */
+:root {
+    --custom-body-bg: #091a2f;
+    --custom-body-text-color: #faf7f7;
+    --custom-header-bg: rgba(255, 255, 255, 0.02);
+    --custom-greadient-start: #2768B4;
+    --custom-greadient-end: #112D4E;
+}
 
+
+/* Create separate utility classes */
+.main-bg-color {
+    background-color: var(--custom-body-bg);
+}
+
+.header {
+    background-color: var(--custom-header-bg);
+}
+
+/* Thin */
+@font-face {
+    font-family: 'Poppins';
+    src: url('src/assets/fonts/Poppins-Thin.ttf');
+    font-weight: 100;
+    font-style: normal;
+}
+/* light */
+@font-face {
+    font-family: 'Poppins';
+    src: url('src/assets/fonts/Poppins-Light.ttf');
+    font-weight: 300;
+    font-style: normal;
+}
+/* Regular */
+@font-face {
+    font-family: 'Poppins';
+    src: url('src/assets/fonts/Poppins-Regular.ttf');
+    font-weight: 400;
+    font-style: normal;
+}
+/* Medium */
+@font-face {
+    font-family: 'Poppins';
+    src: url('ssrc/assets/fonts/Poppins-Medium.ttf');
+    font-weight: 500;
+    font-style: normal;
+}
+/* Bold */
+@font-face {
+    font-family: 'Poppins';
+    src: url('src/assets/fonts/Poppins-Bold.ttf');
+    font-weight: 100;
+    font-style: normal;
+}
+
+
+body {
+    font-family: 'Poppins', sans-serif;
+}
+
+
+.circle-container {
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+}
+
+.text-cust-color {
+    color: var(--custom-body-text-color);
+}
