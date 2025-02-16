@@ -16,7 +16,10 @@ function RootLayout() {
     
       <div className="main-bg-color min-vh-100 d-flex flex-column">
         <Navbar>
-          <NavButton to="/login" text="Login" />
+          <NavButton to="/home" text="Contacts" />
+          <NavButton to="/favorites" text="Favorites" />
+          <NavButton to="/addcontact" text="Add Contact" />
+          <NavButton callback={() => (console.log('logout'))} to="/" text="Log Out" />
         </Navbar>
 
         <main className="flex-grow-1">

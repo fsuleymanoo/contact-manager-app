@@ -1,8 +1,9 @@
+
 import './GlassCard.css'
 
-function GlassCard({children}) {
+function GlassCard({children, type}) {
   return (
-    <div className='glass-card col-10 col-md-9 col-lg-5 p-3'>
+    <div className={`${type} glass-card col-12 col-md-9 col-lg-5 p-3`}>
       {children}
     </div>
   )
