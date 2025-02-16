@@ -1,5 +1,3 @@
-import React from "react";
-
 function Navbar({children}) {
   return (
     <nav className="navbar navbar-expand-lg header navbar-dark sticky-top">
@@ -11,14 +9,14 @@ function Navbar({children}) {
           className="navbar-toggler"
           type="button"
           data-bs-toggle="collapse"
-          data-bs-target="#navbarNav"
-          aria-controls="navbarNav"
+          data-bs-target="#navbarNavAltMarkup"
+          aria-controls="navbarNavAltMarkup"
           aria-expanded="false"
           aria-label="Toggle navigation"
         >
           <span className="navbar-toggler-icon"></span>
         </button>
-        <div className="collapse navbar-collapse" id="navbarNav">
+        <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
           <div className="navbar-nav ms-auto">
            {children}
           </div>

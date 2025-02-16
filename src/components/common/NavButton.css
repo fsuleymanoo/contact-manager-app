@@ -1,7 +1,7 @@
-.active {
-    color: rgb(215, 215, 215);
+a.active {
+    color: rgba(215, 215, 215, 0.766);
 }
 
-.not-active {
-    color: #fff9f9;
+a.not-active {
+    color: #ffffffe9 !important;
 }

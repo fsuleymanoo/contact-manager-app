@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import GlassCard from '../glassCard/GlassCard';
 import './ContactCard.css';
 import { BsFillBookmarkCheckFill } from 'react-icons/bs';
@@ -5,9 +6,14 @@ import { BsFillBookmarkDashFill } from 'react-icons/bs';
 import { FcEditImage } from 'react-icons/fc';
 import { FcRemoveImage } from 'react-icons/fc';
 import { IoMdContact } from 'react-icons/io';
+import {
+  addToFavorites,
+  fetchContacts,
+  deleteFromFavorites,
+} from '../../utils/api';
+import { useGlobalStore } from '../../hooks/useGlobalStore';
 
 function ContactCard({
-  key,
   base64_image,
   city,
   country,
@@ -17,19 +23,42 @@ function ContactCard({
   is_favorite,
   phone_number,
 }) {
+  const { store, dispatch } = useGlobalStore();
+  const [isFav, setIsFav] = useState(is_favorite);
+  const handleFavorite = async () => {
+    setIsFav((prev) => !prev);
+
+    try {
+      if (isFav) {
+        await deleteFromFavorites(store.user.user_id, id);
+      } else {
+        await addToFavorites(store.user.user_id, id);
+      }
+
+      const getContactsResponse = await fetchContacts(store.user.user_id);
+      console.log('Fetched Contacts: ', getContactsResponse);
+      dispatch({ type: 'SET_CONTACTS', payload: getContactsResponse });
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   return (
     <GlassCard type="glass-contact-card">
       {/* hadle the whole card */}
       <div className="d-flex justify-content-between">
         {/* handle left part of the card */}
         <div className="d-flex justify-content-start align-items-center">
-          <div>
+          <button
+            onClick={handleFavorite}
+            className="btn border border-0 m-0 p-0"
+          >
             {is_favorite ? (
               <BsFillBookmarkCheckFill className="fs-5 text-primary opacity-75" />
             ) : (
               <BsFillBookmarkDashFill className="fs-5 text-light opacity-25" />
             )}
-          </div>
+          </button>
           <div className="image-container">
             {base64_image ? (
               <img
@@ -38,7 +67,7 @@ function ContactCard({
                 alt="Profile image"
               />
             ) : (
-              <IoMdContact className='placeholder-image ms-4'/>
+              <IoMdContact className="placeholder-image ms-4" />
             )}
           </div>
           <div className="text-light ms-5">
