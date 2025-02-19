@@ -9,8 +9,10 @@ function ContactList() {
   const hadleFavoritesPath = () => {
     const location = useLocation();
     if (location.pathname === '/favorites') {
-      return store.contacts.filter((contact) => contact.is_favorite);
-    }
+      if (Array.isArray(store.contacts.filter)) {
+      return store.contacts.filter((contact) => contact.is_favorite);}
+      else { [] }
+    } 
     return store.contacts;
   };
 
@@ -18,6 +20,7 @@ function ContactList() {
     <div className="d-flex justify-content-center flex-column align-items-center gap-2">
       {hadleFavoritesPath().length > 0 ? (
         hadleFavoritesPath().map((contact) => (
+      
           <ContactCard
             key={contact.id}
             base64_image={contact.base64_image}

@@ -25,9 +25,9 @@ export async function createNewUser(user) {
 
 export async function fetchContacts(userId) {
   const response = await fetch(`/api/user/contacts?user_id=${userId}`);
-  if (!response.ok) {
-    throw new Error(response.statusText);
-  }
+  // if (!response.ok) {
+  //   throw new Error(response.statusText);
+  // }
   return await response.json();
 }
 
@@ -52,6 +52,20 @@ export async function deleteFromFavorites(userId, contactId) {
   };
   const response = await fetch(
     `/api/user/contacts/favorites/${contactId}?user_id=${userId}`,
+    options
+  );
+  if (!response.ok) {
+    throw new Error(response.statusText);
+  }
+  return await response.json();
+}
+
+export async function deleteContact(userId, contactId) {
+  const options = {
+    method: 'DELETE',
+  };
+  const response = await fetch(
+    `/api/user/contacts/${contactId}?user_id=${userId}`,
     options
   );
   if (!response.ok) {
