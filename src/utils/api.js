@@ -1,6 +1,5 @@
-
 export async function fetchUserByEmail(email) {
-  const options = { headers: { 'X-Secret-Token': 'qwerty' } };
+  const options = { headers: { "X-Secret-Token": "qwerty" } };
   const response = await fetch(`/api/users/email/${email}`, options);
   if (!response.ok) {
     throw new Error(response.statusText);
@@ -10,13 +9,13 @@ export async function fetchUserByEmail(email) {
 
 export async function createNewUser(user) {
   const options = {
-    method: 'POST',
+    method: "POST",
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
     },
     body: JSON.stringify(user),
   };
-  const response = await fetch('/api/users', options);
+  const response = await fetch("/api/users", options);
   if (!response.ok) {
     throw new Error(response.statusText);
   }
@@ -33,9 +32,9 @@ export async function fetchContacts(userId) {
 
 export async function addToFavorites(userId, contactId) {
   const options = {
-    method: 'POST',
+    method: "POST",
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
     },
     body: JSON.stringify({ user_id: userId, contact_id: contactId }),
   };
@@ -48,7 +47,7 @@ export async function addToFavorites(userId, contactId) {
 
 export async function deleteFromFavorites(userId, contactId) {
   const options = {
-    method: 'DELETE',
+    method: "DELETE",
   };
   const response = await fetch(
     `/api/user/contacts/favorites/${contactId}?user_id=${userId}`,
@@ -62,7 +61,7 @@ export async function deleteFromFavorites(userId, contactId) {
 
 export async function deleteContact(userId, contactId) {
   const options = {
-    method: 'DELETE',
+    method: "DELETE",
   };
   const response = await fetch(
     `/api/user/contacts/${contactId}?user_id=${userId}`,
@@ -71,5 +70,17 @@ export async function deleteContact(userId, contactId) {
   if (!response.ok) {
     throw new Error(response.statusText);
   }
+  return await response.json();
+}
+
+export async function createContact(body) {
+  const options = {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(body),
+  };
+  const response = await fetch("/api/user/contacts", options);
   return await response.json();
 }

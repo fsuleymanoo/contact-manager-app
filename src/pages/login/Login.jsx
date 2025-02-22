@@ -1,13 +1,14 @@
-import React, { useState } from 'react';
-import GlassCard from '../../components/glassCard/GlassCard';
-import '../signup/Signup.css';
-import { Link, useNavigate } from 'react-router';
-import { fetchUserByEmail, fetchContacts } from '../../utils/api';
-import { useGlobalStore } from '../../hooks/useGlobalStore';
+import React, { useEffect, useState } from "react";
+import GlassCard from "../../components/glassCard/GlassCard";
+import "../signup/Signup.css";
+import { Link, useNavigate } from "react-router";
+import { fetchUserByEmail, fetchContacts } from "../../utils/api";
+import { useGlobalStore } from "../../hooks/useGlobalStore";
 
 function Login() {
   const navigate = useNavigate();
-  const [email, setEmail] = useState('');
+
+  const [email, setEmail] = useState("");
   const { store, dispatch } = useGlobalStore();
   const [error, setError] = useState(false);
 
@@ -16,19 +17,22 @@ function Login() {
     if (!email.trim()) return;
     try {
       const getUserByEmailResponse = await fetchUserByEmail(email);
-      console.log('Get User By Email Response: ',getUserByEmailResponse);
+      console.log("Get User By Email Response: ", getUserByEmailResponse);
       dispatch({
-        type: 'SET_USER_ID',
+        type: "SET_USER_ID",
         payload: { user_id: getUserByEmailResponse.id },
       });
-      dispatch({ type: 'SET_AUTH', payload: { isAuthenticated: true } });
+
+      dispatch({ type: "SET_AUTH", payload: { isAuthenticated: true } });
 
       // fetch contacts...
-      const getContactsResponse = await fetchContacts(getUserByEmailResponse.id);
-      console.log('Fetched Contacts: ', getContactsResponse)
-      dispatch({type: 'SET_CONTACTS', payload: getContactsResponse});
+      const getContactsResponse = await fetchContacts(
+        getUserByEmailResponse.id
+      );
+      console.log("Fetched Contacts: ", getContactsResponse);
+      dispatch({ type: "SET_CONTACTS", payload: getContactsResponse });
 
-      navigate('/home');
+      navigate("/home");
     } catch (e) {
       console.log(e);
       setError(true);

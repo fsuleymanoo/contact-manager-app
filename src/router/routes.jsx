@@ -6,6 +6,7 @@ import Login from '../pages/login/Login.jsx';
 import Signup from '../pages/signup/Signup.jsx';
 import ProtectedRoute from './ProtectedRoute.jsx';
 import Favorites from '../pages/favorites/Favorites.jsx'
+import AddContact from '../pages/addContact/AddContact.jsx';
 
 export const router = createBrowserRouter([
   {
@@ -30,6 +31,14 @@ export const router = createBrowserRouter([
         element: (
           <ProtectedRoute>
             <Favorites />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: '/addcontact',
+        element: (
+          <ProtectedRoute>
+            <AddContact />
           </ProtectedRoute>
         ),
       },

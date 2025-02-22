@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import ContactCard from '../contactCard/ContactCard';
 import { useGlobalStore } from '../../hooks/useGlobalStore.js';
 import { useLocation } from 'react-router';
@@ -9,12 +9,14 @@ function ContactList() {
   const hadleFavoritesPath = () => {
     const location = useLocation();
     if (location.pathname === '/favorites') {
-      if (Array.isArray(store.contacts.filter)) {
+      if (Array.isArray(store.contacts)) {
       return store.contacts.filter((contact) => contact.is_favorite);}
       else { [] }
     } 
     return store.contacts;
   };
+
+  
 
   return (
     <div className="d-flex justify-content-center flex-column align-items-center gap-2">
