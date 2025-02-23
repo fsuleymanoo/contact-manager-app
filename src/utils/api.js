@@ -84,3 +84,9 @@ export async function createContact(body) {
   const response = await fetch("/api/user/contacts", options);
   return await response.json();
 }
+
+export async function fetchSingleContact(userId, contactId ) {
+  const response = await fetch(`/api/user/contacts/${contactId}?user_id=${userId}`);
+  
+  return await response.json();
+}

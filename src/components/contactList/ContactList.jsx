@@ -5,9 +5,9 @@ import { useLocation } from 'react-router';
 
 function ContactList() {
   const { store, dispatch } = useGlobalStore();
-
+  const location = useLocation();
   const hadleFavoritesPath = () => {
-    const location = useLocation();
+    
     if (location.pathname === '/favorites') {
       if (Array.isArray(store.contacts)) {
       return store.contacts.filter((contact) => contact.is_favorite);}

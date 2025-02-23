@@ -1,3 +1,7 @@
 .front {
     z-index: 10 !important;
 }
+
+.close-btn {
+    z-index: 10 !important;
+  }

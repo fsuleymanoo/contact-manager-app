@@ -15,6 +15,8 @@ function AddContact() {
   const [country, setCountry] = useState("");
   const [zip, setZip] = useState("");
 
+  const [successMessage, setSuccessMessage] = useState('');
+
   const navigate = useNavigate();
 
   const { store, dispatch } = useGlobalStore();
@@ -39,19 +41,12 @@ function AddContact() {
       const newContactResponse = await createContact(body);
       console.log(newContactResponse);
 
-      dispatch({ type: "SET_CONTACTS", payload: newContactResponse });
-      navigate('/home');
 
-      
-      // setFullName('');
-      // setEmail('');
-      // setNumber('');
-      // setStreet('');
-      // setCity('');
-      // setState('');
-      // setCountry('');
-      // setZip('');
+      setSuccessMessage('Contact added successfully!');
 
+      navigate('/home', { state: { successMessage: 'Contact added successfully!' } });
+
+    
     } catch (e) {
       console.log(e);
     }
@@ -69,7 +64,7 @@ function AddContact() {
             <label htmlFor="validationCustom01" className="form-label">
               Full Name
             </label>
-            <input
+            <input 
               onChange={(e) => setFullName(e.target.value)}
               type="text"
               className="form-control"
