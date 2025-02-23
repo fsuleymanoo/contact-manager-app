@@ -3,6 +3,8 @@ import GlassCard from "../../components/glassCard/GlassCard";
 import { useGlobalStore } from "../../hooks/useGlobalStore";
 import { createContact } from "../../utils/api";
 
+import { Link, useNavigate } from "react-router";
+
 function AddContact() {
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
@@ -13,9 +15,12 @@ function AddContact() {
   const [country, setCountry] = useState("");
   const [zip, setZip] = useState("");
 
+  const navigate = useNavigate();
+
   const { store, dispatch } = useGlobalStore();
 
   const handleSubmit = async (e) => {
+
     e.preventDefault();
 
     const body = {
@@ -33,6 +38,20 @@ function AddContact() {
     try {
       const newContactResponse = await createContact(body);
       console.log(newContactResponse);
+
+      dispatch({ type: "SET_CONTACTS", payload: newContactResponse });
+      navigate('/home');
+
+      
+      // setFullName('');
+      // setEmail('');
+      // setNumber('');
+      // setStreet('');
+      // setCity('');
+      // setState('');
+      // setCountry('');
+      // setZip('');
+
     } catch (e) {
       console.log(e);
     }
@@ -84,7 +103,7 @@ function AddContact() {
               <input
                 onChange={(e) => setNumber(e.target.value)}
                 value={number}
-                type="number"
+                type="text"
                 className="form-control"
                 id="validationCustomUsername"
                 aria-describedby="inputGroupPrepend"
@@ -174,6 +193,8 @@ function AddContact() {
             />
             <div className="invalid-feedback">Please provide a valid zip.</div>
           </div>
+
+      
 
           <div className="col-12 text-center">
             <button className="btn btn-primary" type="submit">
