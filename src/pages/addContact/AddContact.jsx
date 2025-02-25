@@ -41,10 +41,10 @@ function AddContact() {
       const newContactResponse = await createContact(body);
       console.log(newContactResponse);
 
-
+      
       setSuccessMessage('Contact added successfully!');
 
-      navigate('/home', { state: { successMessage: 'Contact added successfully!' } });
+      navigate('/home', { state: { successMessage: `${fullName} added to contacts successfully!` } });
 
     
     } catch (e) {
