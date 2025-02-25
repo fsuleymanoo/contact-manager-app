@@ -18,7 +18,13 @@ export function storeReducer(state, action) {
       return {
         ...state,
         contacts: action.payload
-      }  
+      } 
+      
+      case 'SET_CONTACT':
+        return {
+          ...state,
+          contact: action.payload
+        } 
 
     default:
       return state;

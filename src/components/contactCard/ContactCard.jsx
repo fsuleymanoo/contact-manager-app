@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import GlassCard from "../glassCard/GlassCard";
 import "./ContactCard.css";
 import { BsFillBookmarkCheckFill } from "react-icons/bs";
@@ -27,6 +27,9 @@ function ContactCard({
 }) {
   const { store, dispatch } = useGlobalStore();
   const [isFav, setIsFav] = useState(is_favorite);
+  const [contact, setContact] = useState(null);
+
+
   const handleFavorite = async () => {
     setIsFav((prev) => !prev);
 
@@ -56,35 +59,48 @@ function ContactCard({
     }
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
 
-    const body = {
-      user_id: store.user.user_id,
-      full_name: full_name,
-      phone_number: phone_number,
-      email: email,
-      // street: street,
-      city: city,
-      // state: state,
-      // postal_code: zip,
-      country: country,
-    };
+  //   const body = {
+  //     user_id: store.user.user_id,
+  //     full_name: full_name,
+  //     phone_number: phone_number,
+  //     email: email,
+  //     // street: street,
+  //     city: city,
+  //     // state: state,
+  //     // postal_code: zip,
+  //     country: country,
+  //   };
 
+  //   try {
+  //     const newContactResponse = await createContact(body);
+  //     console.log(newContactResponse);
+
+  //     dispatch({ type: "SET_CONTACTS", payload: newContactResponse });
+  //     navigate("/home");
+  //   } catch (e) {
+  //     console.log(e);
+  //   }
+  // };
+
+   const getContact = async () => {
     try {
-      const newContactResponse = await createContact(body);
-      console.log(newContactResponse);
+    
+      const getContactResp = await fetchSingleContact(store.user.user_id, id)
+      setContact(getContactResp);
+      dispatch({ type: "SET_CONTACT", payload: getContactResp });
+      
 
-      dispatch({ type: "SET_CONTACTS", payload: newContactResponse });
-      navigate("/home");
-    } catch (e) {
-      console.log(e);
-    }
-  };
-
-
+  } catch (e) {
+    console.log(e);
+  }
+   }
   
-
+// useEffect(() => {
+//   getContact()
+// }, [])
  
 
 
@@ -127,7 +143,7 @@ function ContactCard({
           <div className="d-flex align-items-center justify-content-center">
             <button className="btn border border-0 btn-sm m-0 p-0">
               <FcEditImage
-              
+              onClick={() => getContact()}
                 className="fs-3 opacity-50 me-3"
                 data-bs-toggle="modal"
                 data-bs-target="#exampleModal"
@@ -145,6 +161,7 @@ function ContactCard({
       </GlassCard>
 
       <div
+        onClick={(e) => e.stopPropagation()}
         className="modal"
         id="exampleModal"
         tabIndex="-1"
@@ -166,7 +183,7 @@ function ContactCard({
             </div>
             <div className="modal-body">
               <form
-                onSubmit={handleSubmit}
+                // onSubmit={handleSubmit}
                 className="row g-3 needs-validation"
                 noValidate
               >
@@ -175,11 +192,11 @@ function ContactCard({
                     Full Name
                   </label>
                   <input
-                    onChange={(e) => e.target.value}
+                    onChange={(e) => setContact({ ...contact, full_name: e.target.value })}
                     type="text"
                     className="form-control"
                     id="validationCustom01"
-                    value={""}
+                    value={contact?.full_name || ""}
                     required
                   />
                   <div className="valid-feedback">Looks good!</div>
@@ -190,11 +207,11 @@ function ContactCard({
                     Email
                   </label>
                   <input
-                    onChange={(e) => e.target.value}
+                    onChange={(e) => setContact({ ...contact, email: e.target.value })}
                     type="email"
                     className="form-control"
                     id="validationCustom02"
-                    value={"email"}
+                    value={contact?.email}
                     required
                   />
                   <div className="valid-feedback">Looks good!</div>
