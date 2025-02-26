@@ -13,8 +13,7 @@ function Home() {
   const [message, setMessage] = useState(true);
   const handleMessage = () => {
     setMessage(false);
-  }
-
+  };
 
   const { store, dispatch } = useGlobalStore();
 
@@ -22,7 +21,6 @@ function Home() {
     const getContactsResponse = await fetchContacts(store.user.user_id);
     console.log("Fetched Contacts: ", getContactsResponse);
     dispatch({ type: "SET_CONTACTS", payload: getContactsResponse });
-    
   };
 
   useEffect(() => {
@@ -30,17 +28,26 @@ function Home() {
   }, []);
 
   return (
-    <div className='d-flex flex-column justify-content-center align-items-center'>
-     
-      <div className={`d-flex justify-content-center align-items-center ${message ? '' : 'd-none'} sticky-top`}>
+    <div className="d-flex flex-column justify-content-center align-items-center">
+      <div
+        className={`d-flex justify-content-center align-items-center ${
+          message ? "" : "d-none"
+        } sticky-top`}
+      >
         {successMessage && (
           <div className="p-1 bg-light fw-bold fs-4 text-center mt-5 d-flex rounded">
-            {successMessage}
-            <button onClick={handleMessage} className="close-btn ms-2 btn btn-sm btn-primary text-light">OK</button>
+            <span className="me-2 text-primary">{successMessage}</span> added to
+            contacts successfully!
+            <button
+              onClick={handleMessage}
+              className="close-btn ms-2 btn btn-sm btn-primary text-light"
+            >
+              OK
+            </button>
           </div>
         )}
       </div>
-      
+
       <div className="d-flex flex-column justify-content-center w-100 p-1">
         <h3 className="fs-1 fw-bold front text-cust-color text-center mt-4">
           Contacts

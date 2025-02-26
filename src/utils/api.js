@@ -85,6 +85,18 @@ export async function createContact(body) {
   return await response.json();
 }
 
+export async function updateContact(contactId, body) {
+  const options = {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(body),
+  };
+  const response = await fetch(`/api/user/contacts/${contactId}`, options);
+  return await response.json();
+}
+
 export async function fetchSingleContact(userId, contactId ) {
   const response = await fetch(`/api/user/contacts/${contactId}?user_id=${userId}`);
   

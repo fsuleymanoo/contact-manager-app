@@ -15,14 +15,10 @@ function AddContact() {
   const [country, setCountry] = useState("");
   const [zip, setZip] = useState("");
 
-  const [successMessage, setSuccessMessage] = useState('');
-
   const navigate = useNavigate();
-
   const { store, dispatch } = useGlobalStore();
 
   const handleSubmit = async (e) => {
-
     e.preventDefault();
 
     const body = {
@@ -41,12 +37,7 @@ function AddContact() {
       const newContactResponse = await createContact(body);
       console.log(newContactResponse);
 
-      
-      setSuccessMessage('Contact added successfully!');
-
-      navigate('/home', { state: { successMessage: `${fullName} added to contacts successfully!` } });
-
-    
+      navigate("/home", { state: { successMessage: fullName } });
     } catch (e) {
       console.log(e);
     }
@@ -64,7 +55,7 @@ function AddContact() {
             <label htmlFor="validationCustom01" className="form-label">
               Full Name
             </label>
-            <input 
+            <input
               onChange={(e) => setFullName(e.target.value)}
               type="text"
               className="form-control"
@@ -188,8 +179,6 @@ function AddContact() {
             />
             <div className="invalid-feedback">Please provide a valid zip.</div>
           </div>
-
-      
 
           <div className="col-12 text-center">
             <button className="btn btn-primary" type="submit">

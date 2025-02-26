@@ -6,12 +6,14 @@ import { BsFillBookmarkDashFill } from "react-icons/bs";
 import { FcEditImage } from "react-icons/fc";
 import { FcRemoveImage } from "react-icons/fc";
 import { IoMdContact } from "react-icons/io";
+
 import {
   addToFavorites,
   fetchContacts,
   deleteFromFavorites,
   deleteContact,
   fetchSingleContact,
+  updateContact,
 } from "../../utils/api";
 import { useGlobalStore } from "../../hooks/useGlobalStore";
 
@@ -29,6 +31,9 @@ function ContactCard({
   const [isFav, setIsFav] = useState(is_favorite);
   const [contact, setContact] = useState(null);
 
+  const handleModal = () => {
+    setShow(false);
+  };
 
   const handleFavorite = async () => {
     setIsFav((prev) => !prev);
@@ -59,50 +64,48 @@ function ContactCard({
     }
   };
 
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
+  const handleUpdate = async (e) => {
+    e.preventDefault();
 
-  //   const body = {
-  //     user_id: store.user.user_id,
-  //     full_name: full_name,
-  //     phone_number: phone_number,
-  //     email: email,
-  //     // street: street,
-  //     city: city,
-  //     // state: state,
-  //     // postal_code: zip,
-  //     country: country,
-  //   };
+    const body = {
+      user_id: store.user.user_id,
+      full_name: contact.full_name,
+      phone_number: contact.phone_number,
+      email: contact.email,
+      street: contact.street,
+      city: contact.city,
+      state: contact.state,
+      postal_code: contact.postal_code,
+      country: contact.country,
+    };
 
-  //   try {
-  //     const newContactResponse = await createContact(body);
-  //     console.log(newContactResponse);
-
-  //     dispatch({ type: "SET_CONTACTS", payload: newContactResponse });
-  //     navigate("/home");
-  //   } catch (e) {
-  //     console.log(e);
-  //   }
-  // };
-
-   const getContact = async () => {
     try {
-    
-      const getContactResp = await fetchSingleContact(store.user.user_id, id)
+      const updatedContactResponse = await updateContact(id, body);
+      console.log(updatedContactResponse);
+
+      dispatch({ type: "SET_CONTACT", payload: updatedContactResponse });
+
+      const getContactsResponse = await fetchContacts(store.user.user_id);
+      console.log("Fetched Contacts: ", getContactsResponse);
+      dispatch({ type: "SET_CONTACTS", payload: getContactsResponse });
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const getContact = async (id) => {
+    try {
+      const getContactResp = await fetchSingleContact(store.user.user_id, id);
       setContact(getContactResp);
       dispatch({ type: "SET_CONTACT", payload: getContactResp });
-      
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
-  } catch (e) {
-    console.log(e);
-  }
-   }
-  
-// useEffect(() => {
-//   getContact()
-// }, [])
- 
-
+  useEffect(() => {
+    getContact(id);
+  }, [id]);
 
   return (
     <>
@@ -141,13 +144,13 @@ function ContactCard({
           </div>
           {/* hadle the right part of the card */}
           <div className="d-flex align-items-center justify-content-center">
-            <button className="btn border border-0 btn-sm m-0 p-0">
-              <FcEditImage
-              onClick={() => getContact()}
-                className="fs-3 opacity-50 me-3"
-                data-bs-toggle="modal"
-                data-bs-target="#exampleModal"
-              />
+            <button
+              className="btn border border-0 btn-sm m-0 p-0"
+              onClick={() => getContact(id)}
+              data-bs-toggle="modal"
+              data-bs-target={`#editModal-${id}`}
+            >
+              <FcEditImage className="fs-3 opacity-50 me-3" />
             </button>
 
             <button
@@ -161,17 +164,20 @@ function ContactCard({
       </GlassCard>
 
       <div
-        onClick={(e) => e.stopPropagation()}
-        className="modal"
-        id="exampleModal"
+        // onClick={(e)  => e.stopPropagation()}
+        className="modal fade"
+        id={`editModal-${id}`}
         tabIndex="-1"
-        aria-labelledby="exampleModalLabel"
+        aria-labelledby={`editModalLabel-${id}`}
         aria-hidden="true"
       >
         <div className="modal-dialog">
           <div className="modal-content">
             <div className="modal-header">
-              <h1 className="modal-title fs-4 fw-bold" id="exampleModalLabel">
+              <h1
+                className="modal-title fs-4 fw-bold"
+                id={`#editModalLabel-${id}`}
+              >
                 Edit Contact
               </h1>
               <button
@@ -183,7 +189,7 @@ function ContactCard({
             </div>
             <div className="modal-body">
               <form
-                // onSubmit={handleSubmit}
+                onSubmit={handleUpdate}
                 className="row g-3 needs-validation"
                 noValidate
               >
@@ -192,11 +198,13 @@ function ContactCard({
                     Full Name
                   </label>
                   <input
-                    onChange={(e) => setContact({ ...contact, full_name: e.target.value })}
+                    onChange={(e) =>
+                      setContact({ ...contact, full_name: e.target.value })
+                    }
                     type="text"
                     className="form-control"
                     id="validationCustom01"
-                    value={contact?.full_name || ""}
+                    value={contact?.full_name}
                     required
                   />
                   <div className="valid-feedback">Looks good!</div>
@@ -207,7 +215,9 @@ function ContactCard({
                     Email
                   </label>
                   <input
-                    onChange={(e) => setContact({ ...contact, email: e.target.value })}
+                    onChange={(e) =>
+                      setContact({ ...contact, email: e.target.value })
+                    }
                     type="email"
                     className="form-control"
                     id="validationCustom02"
@@ -226,8 +236,10 @@ function ContactCard({
                   </label>
                   <div className="input-group has-validation">
                     <input
-                      onChange={(e) => e.target.value}
-                      // value={phone_number}
+                      onChange={(e) =>
+                        setContact({ ...contact, phone_number: e.target.value })
+                      }
+                      value={contact?.phone_number}
                       type="text"
                       className="form-control"
                       id="validationCustomUsername"
@@ -245,8 +257,10 @@ function ContactCard({
                     Street
                   </label>
                   <input
-                    onChange={(e) => e.target.value}
-                    value={"street"}
+                    onChange={(e) =>
+                      setContact({ ...contact, street: e.target.value })
+                    }
+                    value={contact?.street}
                     type="text"
                     className="form-control"
                     id="validationCustom03"
@@ -262,8 +276,10 @@ function ContactCard({
                     City
                   </label>
                   <input
-                    onChange={(e) => e.target.value}
-                    value={"city"}
+                    onChange={(e) =>
+                      setContact({ ...contact, city: e.target.value })
+                    }
+                    value={contact?.city}
                     type="text"
                     className="form-control"
                     id="validationCustom03"
@@ -279,8 +295,10 @@ function ContactCard({
                     State
                   </label>
                   <input
-                    onChange={(e) => e.target.value}
-                    value={"state"}
+                    onChange={(e) =>
+                      setContact({ ...contact, state: e.target.value })
+                    }
+                    value={contact?.state}
                     type="text"
                     className="form-control"
                     id="validationCustom03"
@@ -296,8 +314,10 @@ function ContactCard({
                     Country
                   </label>
                   <input
-                    onChange={(e) => e.target.value}
-                    value={"country"}
+                    onChange={(e) =>
+                      setContact({ ...contact, country: e.target.value })
+                    }
+                    value={contact?.country}
                     type="text"
                     className="form-control"
                     id="validationCustom03"
@@ -313,8 +333,10 @@ function ContactCard({
                     Zip
                   </label>
                   <input
-                    onChange={(e) => e.target.value}
-                    value={"zip"}
+                    onChange={(e) =>
+                      setContact({ ...contact, postal_code: e.target.value })
+                    }
+                    value={contact?.postal_code}
                     type="text"
                     className="form-control mb-4"
                     id="validationCustom05"
@@ -325,7 +347,7 @@ function ContactCard({
                   </div>
                 </div>
                 <button type="submit" className="btn btn-primary">
-                  Save changes
+                  Update
                 </button>
                 <button
                   type="button"
