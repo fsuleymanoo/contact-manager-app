@@ -346,7 +346,11 @@ function ContactCard({
                     Please provide a valid zip.
                   </div>
                 </div>
-                <button type="submit" className="btn btn-primary">
+                <button
+                  data-bs-dismiss="modal"
+                  type="submit"
+                  className="btn btn-primary"
+                >
                   Update
                 </button>
                 <button
