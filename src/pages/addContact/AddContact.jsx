@@ -65,7 +65,7 @@ function AddContact() {
             <input
               onChange={(e) => setFullName(e.target.value)}
               type="text"
-              className="form-control"
+              className="form-control contact-form"
               id="validationCustom01"
               value={fullName}
               required
@@ -80,7 +80,7 @@ function AddContact() {
             <input
               onChange={(e) => setEmail(e.target.value)}
               type="email"
-              className="form-control"
+              className="form-control contact-form"
               id="validationCustom02"
               value={email}
               required
@@ -97,7 +97,7 @@ function AddContact() {
                 onChange={(e) => setNumber(e.target.value)}
                 value={number}
                 type="text"
-                className="form-control"
+                className="form-control contact-form"
                 id="validationCustomUsername"
                 aria-describedby="inputGroupPrepend"
                 required
@@ -114,7 +114,7 @@ function AddContact() {
               onChange={(e) => setStreet(e.target.value)}
               value={street}
               type="text"
-              className="form-control"
+              className="form-control contact-form"
               id="validationCustom03"
             />
             <div className="invalid-feedback">
@@ -130,7 +130,7 @@ function AddContact() {
               onChange={(e) => setCity(e.target.value)}
               value={city}
               type="text"
-              className="form-control"
+              className="form-control contact-form"
               id="validationCustom03"
             />
             <div className="invalid-feedback">Please provide a valid city.</div>
@@ -144,7 +144,7 @@ function AddContact() {
               onChange={(e) => setState(e.target.value)}
               value={state}
               type="text"
-              className="form-control"
+              className="form-control contact-form"
               id="validationCustom03"
             />
             <div className="invalid-feedback">
@@ -160,7 +160,7 @@ function AddContact() {
               onChange={(e) => setCountry(e.target.value)}
               value={country}
               type="text"
-              className="form-control"
+              className="form-control contact-form"
               id="validationCustom03"
             />
             <div className="invalid-feedback">
@@ -176,7 +176,7 @@ function AddContact() {
               onChange={(e) => setZip(e.target.value)}
               value={zip}
               type="text"
-              className="form-control"
+              className="form-control contact-form"
               id="validationCustom05"
             />
             <div className="invalid-feedback">Please provide a valid zip.</div>
