@@ -2,9 +2,8 @@ import { useState } from "react";
 import GlassCard from "../../components/glassCard/GlassCard";
 import { useGlobalStore } from "../../hooks/useGlobalStore";
 import { createContact } from "../../utils/api";
-
 import { Link, useNavigate } from "react-router";
-
+import "./AddContact.css"
 function AddContact() {
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
@@ -20,6 +19,14 @@ function AddContact() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    const form = e.target;
+    if (!form.checkValidity()) {
+      form.classList.add("was-validated");
+      return;
+    }
+
+    if (!fullName.trim() && !email.trim() && !number.trim()) return;
 
     const body = {
       user_id: store.user.user_id,
@@ -63,7 +70,7 @@ function AddContact() {
               value={fullName}
               required
             />
-            <div className="valid-feedback">Looks good!</div>
+            <div className="invalid-feedback">*required</div>
           </div>
 
           <div className="col-md-4">
@@ -78,7 +85,7 @@ function AddContact() {
               value={email}
               required
             />
-            <div className="valid-feedback">Looks good!</div>
+            <div className="invalid-feedback">*required</div>
           </div>
 
           <div className="col-md-4">
@@ -95,7 +102,7 @@ function AddContact() {
                 aria-describedby="inputGroupPrepend"
                 required
               />
-              <div className="invalid-feedback">Please add a phone number.</div>
+              <div className="invalid-feedback">*required</div>
             </div>
           </div>
 
@@ -109,7 +116,6 @@ function AddContact() {
               type="text"
               className="form-control"
               id="validationCustom03"
-              required
             />
             <div className="invalid-feedback">
               Please provide a valid street.
@@ -126,7 +132,6 @@ function AddContact() {
               type="text"
               className="form-control"
               id="validationCustom03"
-              required
             />
             <div className="invalid-feedback">Please provide a valid city.</div>
           </div>
@@ -141,7 +146,6 @@ function AddContact() {
               type="text"
               className="form-control"
               id="validationCustom03"
-              required
             />
             <div className="invalid-feedback">
               Please provide a valid state.
@@ -158,7 +162,6 @@ function AddContact() {
               type="text"
               className="form-control"
               id="validationCustom03"
-              required
             />
             <div className="invalid-feedback">
               Please provide a valid country.
@@ -175,7 +178,6 @@ function AddContact() {
               type="text"
               className="form-control"
               id="validationCustom05"
-              required
             />
             <div className="invalid-feedback">Please provide a valid zip.</div>
           </div>
